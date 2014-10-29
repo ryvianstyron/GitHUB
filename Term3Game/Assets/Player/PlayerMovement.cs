@@ -79,23 +79,22 @@ public class PlayerMovement : MonoBehaviour
     }
 	protected void Jump()
 	{
-        Player.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0), ForceMode.Impulse);  
+        Player.GetComponent<Rigidbody>().AddForce(new Vector3(0, 5, 0) * 100);  
        
         IsJumping = true;
         IsGrounded = false;
 	}
-    // Which force mode to use?
-    // Should I just be translate the player instead?
+    // Which force mode to use? Ali has never actually used it
     protected void Run(int Direction) 
     {
         if(Direction == LEFT)
         {
-            Player.GetComponent<Rigidbody>().AddForce(new Vector3(-0.5f, 0, 0), ForceMode.VelocityChange);
+            Player.GetComponent<Rigidbody>().AddForce(new Vector3(-0.5f, 0, 0) * 200);
             //Player.transform.Translate(-Time.deltaTime * Speed, 0, 0);
         }
         else if(Direction == RIGHT) 
         {
-            Player.GetComponent<Rigidbody>().AddForce(new Vector3(0.5f, 0, 0), ForceMode.VelocityChange);
+            Player.GetComponent<Rigidbody>().AddForce(new Vector3(0.5f, 0, 0) * 200);
             //Player.transform.Translate(Time.deltaTime * Speed, 0, 0);
         }
         IsRunning = true;
