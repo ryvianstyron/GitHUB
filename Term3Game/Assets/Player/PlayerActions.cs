@@ -3,11 +3,11 @@ using System.Collections;
 
 public class PlayerActions : MonoBehaviour 
 {
-	public void PickUpMana(PickupItem Mana)
+	public void PickUpMana(PickUp Mana)
     {
         Mana.ApplyPickupToPlayer();
     }
-    public void PickUpHealth(PickupItem Health)
+    public void PickUpHealth(PickUp Health)
     {
         Health.ApplyPickupToPlayer();
     }

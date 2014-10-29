@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class PickupItem : MonoBehaviour 
+public class PickUp : MonoBehaviour 
 {
     public int PickUpType;
     public int PickUpAmount;
