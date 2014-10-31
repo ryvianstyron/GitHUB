@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private int LastPlayerDirection;
     public GameObject Player;
     private Rigidbody PlayerRigidBody;
 
@@ -14,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 MovementSpeedMaxTest;
     public int MovementSpeed; // 250
 
-    private float JumpSpeed = 25;
+    public float JumpSpeed = 20;
     private GameObject PlayerGameObject;
     public GameObject WeaponMace;
 
@@ -24,6 +25,10 @@ public class PlayerMovement : MonoBehaviour
     bool IsFalling = false;
     bool IsGrounded = true;
 
+    public int GetPlayerDirection()
+    {
+        return LastPlayerDirection;
+    }
     void Start()
     {
         HUD = GameObject.Find("Camera").GetComponent<HUDManager>();
@@ -56,7 +61,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Collision.gameObject.name.Contains("LevelGround") && !IsJumping) 
         {
+            Debug.Log("Exit Level Ground");
             IsFalling = true;
+        }
+        if(Collision.gameObject.name.Contains("Earth_Block") && !IsJumping)
+        {
+            Debug.Log("Exit Earth Block & !Jumping");
+            IsFalling = true;
+        }
+        if(Collision.gameObject.name.Contains("Earth_Block") && IsGrounded)
+        {
+            Debug.Log("Exit Earth Block & Grounded");
+            IsGrounded = true;
+            IsFalling = false;
+            IsJumping = false;
         }
     }
     void OnCollisionEnter(Collision Collision)
@@ -67,6 +85,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (Collision.gameObject.name.Contains("LevelGround")) 
         {
+            Debug.Log("Collision level Ground");
+            IsFalling = false;
+            IsGrounded = true;
+            IsJumping = false;
+        }
+        if (Collision.gameObject.name.Contains("Earth_Block"))
+        {
+            Debug.Log("Collision Earth Block");
             IsFalling = false;
             IsGrounded = true;
             IsJumping = false;
@@ -101,10 +127,12 @@ public class PlayerMovement : MonoBehaviour
         if (Direction == LEFT)
         {
             PlayerRigidBody.AddForce(Vector3.left * MovementSpeed);
+            LastPlayerDirection = LEFT;
         }
         else if (Direction == RIGHT)
         {
             PlayerRigidBody.AddForce(Vector3.right * MovementSpeed);
+            LastPlayerDirection = RIGHT;
         }
     }
 }
