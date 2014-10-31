@@ -14,6 +14,7 @@ public class Earth : Power
     // Probably can combine into one method
     public void CreateFallingBlock()
     {
+        Debug.Log("Create a falling block");
         if (TimeBetweenBlockCreations >= MIN_BLOCKS)
         {
             // Create
@@ -22,6 +23,7 @@ public class Earth : Power
     }
     public void CreateFloatingBlock()
     {
+        Debug.Log("Create a floating block");
         if (TimeBetweenBlockCreations >= MIN_BLOCKS)
         {
             // Create
@@ -30,6 +32,7 @@ public class Earth : Power
     }
     public void ShootEarthProjecile()
     {
+        Debug.Log("Shoot Earth Projectile");
         if(TimeBetweenEarthProjectiles >= MIN_PROJECTILE)
         {
             //Shoot 

@@ -13,16 +13,18 @@ public class Fire : Power
     public void ActivateFireShield()
     {
         IsFireShieldActive = true;
+        Debug.Log("Activated Fire Shield");
     }
     public void DeactivateFireShield()
     {
         IsFireShieldActive = false;
+        Debug.Log("Deactivated Fire Shield");
     }
     public void ShootFireProjectile()
     {
+        Debug.Log("Shoot Fire Projectile");
         if(TimeBetweenFireProjectiles > MIN_TIME)
         {
-            // Shoot from here
             TimeBetweenFireProjectiles = 0;
         }
     }

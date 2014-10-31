@@ -1,98 +1,110 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour 
+public class PlayerMovement : MonoBehaviour
 {
-	public GameObject Player;
+    public GameObject Player;
     private Rigidbody PlayerRigidBody;
 
     private const int LEFT = 0;
     private const int RIGHT = 1;
+    private const int DEATH_DISTANCE = -25;
 
-    private Vector3 MovementSpeedMax;
-    private float MaxSpeedInMetersPerSecond = 10;
-    private int MovementSpeed = 300;
+    public float MovementSpeedMax;
+    private Vector3 MovementSpeedMaxTest;
+    public int MovementSpeed; // 250
 
-    private float JumpSpeed = 25; 
+    private float JumpSpeed = 25;
     private GameObject PlayerGameObject;
     public GameObject WeaponMace;
 
+    private HUDManager HUD;
+
     bool IsJumping = false;
     bool IsFalling = false;
+    bool IsGrounded = true;
 
-	void Start ()
-	{
+    void Start()
+    {
+        HUD = GameObject.Find("Camera").GetComponent<HUDManager>();
+
         PlayerGameObject = GameObject.Find("Player");
         PlayerRigidBody = PlayerGameObject.GetComponent<Rigidbody>();
-        MovementSpeedMax = (PlayerRigidBody.transform.forward) * MaxSpeedInMetersPerSecond;
-	}
-	void Update () 
-	{
-		if (Input.GetKeyDown("up")) 
-		{
-            if (!IsJumping && !IsFalling)
-            {
-                Jump();
-            }
+
+        MovementSpeedMaxTest = PlayerRigidBody.transform.forward * MovementSpeed;
+    }
+    void FixedUpdate()
+    {
+        if (PlayerRigidBody.transform.position.y < DEATH_DISTANCE)
+        {
+            HUD.OnScreenDebugLine("Player Should totally be dead right now");
+        }
+        if (Input.GetKeyDown("up") && IsGrounded)
+        {
+            Jump();
         }
         else if (Input.GetKey("left") && !IsJumping && !IsFalling)
-		{
+        {
             Run(LEFT);
-		}
+        }
         else if (Input.GetKey("right") && !IsJumping && !IsFalling)
-		{
+        {
             Run(RIGHT);
-		}
-	}
-    // Checking for collisions here?
-    // Check for nearest objects for pickup?
+        }
+    }
+    void OnCollisionExit(Collision Collision)
+    {
+        if (Collision.gameObject.name.Contains("LevelGround") && !IsJumping) 
+        {
+            IsFalling = true;
+        }
+    }
     void OnCollisionEnter(Collision Collision)
     {
         PickUp Potion;
+        Power Power;
         PlayerActions PlayerActions = (PlayerActions)GameObject.Find("Player").GetComponent(typeof(PlayerActions));
 
-        if (Collision.gameObject.name.Contains("LevelGround"))
+        if (Collision.gameObject.name.Contains("LevelGround")) 
         {
-            Debug.Log("Collision Detected: Ground");
-            IsJumping = false;
             IsFalling = false;
+            IsGrounded = true;
+            IsJumping = false;
         }
-        if (Collision.gameObject == GameObject.Find("ManaPotion"))
+        if (Collision.gameObject.name.Contains("ManaPotion"))
         {
-            Debug.Log("Collision Detected: ManaPotion");
             Potion = GameObject.Find("ManaPotion").GetComponent<PickUp>();
-            PlayerActions.PickUpMana(Potion); 
+            PlayerActions.PickUpMana(Potion);
         }
-        else if (Collision.gameObject == GameObject.Find("HealthPotion"))
+        else if (Collision.gameObject.name.Contains("HealthPotion"))
         {
-            Debug.Log("Collision Detected: HealthPotion");
             Potion = GameObject.Find("HealthPotion").GetComponent<PickUp>();
-            PlayerActions.PickUpHealth(Potion); 
+            PlayerActions.PickUpHealth(Potion);
+        }
+        else if (Collision.gameObject.name.Contains("Power"))
+        {
+            Power = GameObject.Find(Collision.gameObject.name).GetComponent<Power>();
+            PlayerActions.PickupPower(Power);
+            HUD.OnScreenDebugLine(Player.GetComponent(typeof(Player)).ToString());
         }
     }
-	protected void Jump()
-	{
+    protected void Jump()
+    {
         PlayerRigidBody.AddForce(new Vector3(0, 10, 0) * JumpSpeed);
-        Debug.Log("Jump");
         IsJumping = true;
         IsFalling = true;
-	}
-    // Which force mode to use? Ali has never actually used it
-    // Forces in general are good for sudden movement changes, like shooting for example
-    protected void Run(int Direction) 
+        IsGrounded = false;
+    }
+    protected void Run(int Direction)
     {
-        PlayerRigidBody.velocity = MovementSpeedMax; // Make sure you never go too fast
-        if(Direction == LEFT)
+        PlayerRigidBody.velocity = MovementSpeedMaxTest; // MovementSpeedMaxText is a Vector3
+        if (Direction == LEFT)
         {
-            Debug.Log("Run Left");
             PlayerRigidBody.AddForce(Vector3.left * MovementSpeed);
-            //Player.transform.Translate(-Time.deltaTime * Speed, 0, 0);
         }
-        else if(Direction == RIGHT) 
+        else if (Direction == RIGHT)
         {
-            Debug.Log("Run Right");
             PlayerRigidBody.AddForce(Vector3.right * MovementSpeed);
-            //Player.transform.Translate(Time.deltaTime * Speed, 0, 0);
         }
     }
 }

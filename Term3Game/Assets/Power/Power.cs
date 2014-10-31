@@ -3,9 +3,9 @@ using System.Collections;
 
 public class Power : MonoBehaviour
 {
-    bool IsPowerActivated;
-    int PowerType;
-    string PowerTag;
+    public bool IsPowerActivated;
+    public int PowerType;
+    public string PowerTag;
 
     public void ActivatePower()
     {
@@ -30,6 +30,17 @@ public class Power : MonoBehaviour
     public string GetPowerTag()
     {
         return PowerTag;
+    }
+    public void PickUp()
+    {
+        Destroy(gameObject);
+    }
+    public override string ToString()
+    {
+        return 
+            "IsPowerActivated:" + IsPowerActivated +
+            "\nPowerType:" + PowerType + 
+            "\nPowerTag:" + PowerTag;
     }
 }
 

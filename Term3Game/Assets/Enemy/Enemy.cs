@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
     public void SetHealth(int Health)
     {
         this.Health = Health;
-        Debug.Log("Enemy Health: " + this.Health);
     }
     public int GetHealth()
     {

@@ -6,6 +6,7 @@ public class HUDManager : MonoBehaviour
 {
     public Text ManaText;
     public Text HealthText;
+    public Text Debugger;
 
     private GameObject PlayerGameObject;
     private Player Player;
@@ -41,5 +42,9 @@ public class HUDManager : MonoBehaviour
     public void DrawManaReplinishedEffect()
     {
 
+    }
+    public void OnScreenDebugLine(string DebugLine)
+    {
+        Debugger.text ="DEBUG:" + DebugLine;
     }
 }
