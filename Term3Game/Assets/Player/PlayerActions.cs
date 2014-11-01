@@ -20,7 +20,6 @@ public class PlayerActions : MonoBehaviour
     }
     public void PickupPower(Power Power)
     {
-        Debug.Log("PlayerActions Pickup Power With Tag : " + Power.GetPowerTag());
         Power.PickUp();
         Player.AddToPowerList(Power);
         PlayerPowerActions.SetCurrentPower(Power);

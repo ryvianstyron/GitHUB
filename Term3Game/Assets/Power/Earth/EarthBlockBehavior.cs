@@ -14,21 +14,22 @@ public class EarthBlockBehavior : MonoBehaviour
         Vector3 CurrentScale = gameObject.transform.localScale;
         if(!(CurrentScale.x <= SizeToShrinkBy))
         {
-            Debug.Log("3 Seconds up, shrinking block");
+            //Debug.Log("3 Seconds up, shrinking block");
             CurrentScale = new Vector3(CurrentScale.x - SizeToShrinkBy, CurrentScale.y, CurrentScale.z);
             yield return new WaitForSeconds(2);
             if(!(CurrentScale.x <= SizeToShrinkBy))
             {
-                Debug.Log("5 Seconds up, shrinking block");
+                //Debug.Log("5 Seconds up, shrinking block");
                 CurrentScale = new Vector3(CurrentScale.x - SizeToShrinkBy, CurrentScale.y, CurrentScale.z);
                 yield return new WaitForSeconds(1);
-                Debug.Log("6 Seconds up, destroying block");
+                //Debug.Log("6 Seconds up, destroying block");
                 DestroyBlock();
             }
         }
     }
     void DestroyBlock()
     {
-        DestroyObject(gameObject);
+        //Debug.Log("Block should be destroyed");
+        //DestroyObject(gameObject);
     }
 }

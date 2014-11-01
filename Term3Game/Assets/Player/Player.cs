@@ -65,8 +65,6 @@ public class Player : MonoBehaviour
 	}
     public void AddToPowerList(Power Power)
     {
-        Debug.Log("Player AddToPowerList");
-
         PickedUpPowers.Add(Power);
     }
     public List<Power> GetPowersCollected()

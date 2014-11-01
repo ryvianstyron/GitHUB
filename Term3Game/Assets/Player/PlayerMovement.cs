@@ -21,9 +21,9 @@ public class PlayerMovement : MonoBehaviour
 
     private HUDManager HUD;
 
-    bool IsJumping = false;
-    bool IsFalling = false;
-    bool IsGrounded = true;
+   public bool IsJumping = false;
+   public bool IsFalling = false;
+   public bool IsGrounded = true;
 
     public int GetPlayerDirection()
     {
@@ -61,20 +61,21 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Collision.gameObject.name.Contains("LevelGround") && !IsJumping) 
         {
-            Debug.Log("Exit Level Ground");
+            //Debug.Log("Exit Level Ground");
             IsFalling = true;
         }
-        if(Collision.gameObject.name.Contains("Earth_Block") && !IsJumping)
-        {
-            Debug.Log("Exit Earth Block & !Jumping");
-            IsFalling = true;
-        }
+       
         if(Collision.gameObject.name.Contains("Earth_Block") && IsGrounded)
         {
-            Debug.Log("Exit Earth Block & Grounded");
+            //Debug.Log("Exit Earth Block & Grounded");
             IsGrounded = true;
             IsFalling = false;
             IsJumping = false;
+        }
+        if (Collision.gameObject.name.Contains("Earth_Block") && !IsJumping)
+        {
+            //Debug.Log("Exit Earth Block & !Jumping");
+            IsFalling = true;
         }
     }
     void OnCollisionEnter(Collision Collision)
@@ -85,14 +86,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (Collision.gameObject.name.Contains("LevelGround")) 
         {
-            Debug.Log("Collision level Ground");
+            //Debug.Log("Collision level Ground");
             IsFalling = false;
             IsGrounded = true;
             IsJumping = false;
         }
         if (Collision.gameObject.name.Contains("Earth_Block"))
         {
-            Debug.Log("Collision Earth Block");
+            //Debug.Log("Collision Earth Block");
             IsFalling = false;
             IsGrounded = true;
             IsJumping = false;

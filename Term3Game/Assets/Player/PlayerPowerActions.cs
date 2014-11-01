@@ -7,17 +7,18 @@ public class PlayerPowerActions : MonoBehaviour
     const int PRIMARY_ACTION = 1;
     const int SECONDRY_ACTION = 2;
     const int TERTIARY_ACTION = 3;
+    const int FOURTH_ACTION = 4;
 
     const int EARTH = 1;
     const int FIRE = 2;
 
     Power CurrentPower;
-    private HUDManager HUD;
+    //private HUDManager HUD;
     Player Player;
 	void Start () 
     {
         Player = (Player)GameObject.Find("Player").GetComponent(typeof(Player));
-        HUD = GameObject.Find("Camera").GetComponent<HUDManager>();
+        //HUD = GameObject.Find("Camera").GetComponent<HUDManager>();
 	}
     public void SetCurrentPower(Power Power)
     {
@@ -31,28 +32,33 @@ public class PlayerPowerActions : MonoBehaviour
     {
         if (Input.GetKeyDown("1"))
         {
-            Debug.Log("Check Earth");
+            //Debug.Log("Check Earth");
             CheckIfPowerIsCollected("Earth");
         }
         else if(Input.GetKeyDown("2"))
         {
-            Debug.Log("Check Fire");
+            //Debug.Log("Check Fire");
             CheckIfPowerIsCollected("Fire");
         }
         else if (Input.GetKeyDown("a"))
         {
-            Debug.Log("Perform Primary");
+            //Debug.Log("Perform Primary");
             PerformPowerAction(PRIMARY_ACTION);
         }
         else if (Input.GetKeyDown("w"))
         {
-            Debug.Log("Perform Tertiary");
+            //Debug.Log("Perform Tertiary");
             PerformPowerAction(TERTIARY_ACTION);
         }
         else if (Input.GetKeyDown("d"))
         {
-            Debug.Log("Perform Secondry");
+            //Debug.Log("Perform Secondry");
             PerformPowerAction(SECONDRY_ACTION);
+        }
+        else if(Input.GetKeyDown("s"))
+        {
+            //Debug.Log("Perform Fourth");
+            PerformPowerAction(FOURTH_ACTION);
         }
     }
     public void CheckIfPowerIsCollected(string PowerTag)
@@ -68,45 +74,43 @@ public class PlayerPowerActions : MonoBehaviour
     }
     public void PerformPowerAction(int Action)
     {
-        Debug.Log("Current Power Data: \n" + CurrentPower.ToString());
         switch (CurrentPower.GetPowerType())
         {
             case EARTH:
-                Earth Earth = CurrentPower as Earth;
-                switch (Action)
-                {
-                    case PRIMARY_ACTION:
-                        Earth.CreateFloatingBlock();
-                        break;
-                    case SECONDRY_ACTION:
-                        Earth.CreateFallingBlock();
-                        break;
-                    case TERTIARY_ACTION:
-                        Earth.ShootEarthProjecile();
-                        break;
-                    default:
-                        break;
-                }
-                break;
+            Earth Earth = CurrentPower as Earth;
+            switch (Action)
+            {
+                case PRIMARY_ACTION:
+                    Earth.CreateFloatingBlock();
+                    break;
+                case SECONDRY_ACTION:
+                    Earth.CreateFallingBlock();
+                    break;
+                case TERTIARY_ACTION:
+                    Earth.ShootEarthProjecile();
+                    break;
+                case FOURTH_ACTION:
+                    Earth.DestroyAllBlocks();
+                    break;
+            }
+            break;
             case FIRE:
-                Fire Fire = CurrentPower as Fire;
-                switch (Action)
-                {
-                    case PRIMARY_ACTION:
-                        Fire.ActivateFireShield();
-                        break;
-                    case SECONDRY_ACTION:
-                        Fire.DeactivateFireShield();
-                        break;
-                    case TERTIARY_ACTION:
-                        Fire.ShootFireProjectile();
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            default:
-                break;
+            Fire Fire = CurrentPower as Fire;
+            switch (Action)
+            {
+                case PRIMARY_ACTION:
+                    Fire.ActivateFireShield();
+                    break;
+                case SECONDRY_ACTION:
+                    Fire.DeactivateFireShield();
+                    break;
+                case TERTIARY_ACTION:
+                    Fire.ShootFireProjectile();
+                    break;
+                default:
+                    break;
+            }
+            break;
         }
-    }
+    }    
 }
