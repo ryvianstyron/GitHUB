@@ -65,6 +65,7 @@ public class Player : MonoBehaviour
 	}
     public void AddToPowerList(Power Power)
     {
+		Debug.Log ("Player Class - Add To Power List");
         PickedUpPowers.Add(Power);
     }
     public List<Power> GetPowersCollected()
@@ -73,22 +74,17 @@ public class Player : MonoBehaviour
     }
     public int CheckIfPowerExists(string PowerTag)
     {
-        Debug.Log("Power Tag" + PowerTag);
         int ReturnIndex = -1;
         if (PickedUpPowers != null)
         {
-            Debug.Log("PickedUpPowers has Powers");
             for(int i = 0; i < PickedUpPowers.Count; i++)
             {
-                Debug.Log("PickedUpPowers [" + i + "]= " + PickedUpPowers[i].GetPowerTag());
                 if(PickedUpPowers[i].GetPowerTag().Equals(PowerTag))
                 {
-                    Debug.Log("MATCH FOUND");
                     ReturnIndex = i;
                 }
             }
         }
-        Debug.Log("Return Index: " + ReturnIndex);
         return ReturnIndex;
     }
 	public override string ToString()

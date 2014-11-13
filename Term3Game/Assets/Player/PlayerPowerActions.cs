@@ -12,13 +12,14 @@ public class PlayerPowerActions : MonoBehaviour
     const int EARTH = 1;
     const int FIRE = 2;
 
-    Power CurrentPower;
-    //private HUDManager HUD;
+	Power CurrentPower;
+	HUDManager HUD;
+
     Player Player;
 	void Start () 
     {
+		HUD = (HUDManager)GameObject.Find ("Camera").GetComponent(typeof(HUDManager));
         Player = (Player)GameObject.Find("Player").GetComponent(typeof(Player));
-        //HUD = GameObject.Find("Camera").GetComponent<HUDManager>();
 	}
     public void SetCurrentPower(Power Power)
     {
@@ -32,12 +33,12 @@ public class PlayerPowerActions : MonoBehaviour
     {
         if (Input.GetKeyDown("1"))
         {
-            //Debug.Log("Check Earth");
+            Debug.Log("Check Earth");
             CheckIfPowerIsCollected("Earth");
         }
         else if(Input.GetKeyDown("2"))
         {
-            //Debug.Log("Check Fire");
+            Debug.Log("Check Fire");
             CheckIfPowerIsCollected("Fire");
         }
         else if (Input.GetKeyDown("a"))
@@ -61,6 +62,19 @@ public class PlayerPowerActions : MonoBehaviour
             PerformPowerAction(FOURTH_ACTION);
         }
     }
+	public void DeactivateOtherPowers() // Uses Current Power
+	{
+        Debug.Log("DeactivateOtherPowers: PowersCollectedCount:" + Player.GetPowersCollected().Count);
+		foreach(Power PW in Player.GetPowersCollected ())
+		{
+          
+			if(!(PW.PowerTag.Equals(CurrentPower.PowerTag)))
+			{
+				PW.IsPowerActivated = false;
+			}
+		}
+		HUD.UpdatePowers();
+	}
     public void CheckIfPowerIsCollected(string PowerTag)
     {
         List<Power> PowersCollected = Player.GetPowersCollected();
@@ -68,9 +82,10 @@ public class PlayerPowerActions : MonoBehaviour
         if (PowerExistsAt != -1)
         {
             PowersCollected[PowerExistsAt].ActivatePower();
-            CurrentPower = PowersCollected[PowerExistsAt];
-            Debug.Log("Getting Current Power: " + CurrentPower.GetPowerTag());
+			CurrentPower = PowersCollected[PowerExistsAt];
+		    DeactivateOtherPowers();
         }
+        HUD.UpdatePowers();
     }
     public void PerformPowerAction(int Action)
     {

@@ -48,7 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Camera\CameraFollow.js" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/DarkRaveDev/Documents/GitHUB/GitHUB/Term3Game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/DarkRaveDev/Desktop/GitHUB-master/GitHUB-master/Term3Game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>

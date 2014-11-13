@@ -4,32 +4,53 @@ using System.Collections;
 public class EarthBlockBehavior : MonoBehaviour 
 {
     public float SizeToShrinkBy = 1.0f;
-    void Start()
+	public float StartWidth;
+	void Start()
     {
-      StartCoroutine("ShrinkBlock");
+		StartWidth = transform.localScale.x;
+		//StartCoroutine("ShrinkBlock");
     }
     IEnumerator ShrinkBlock()
     {
-        yield return new WaitForSeconds(3);
-        Vector3 CurrentScale = gameObject.transform.localScale;
-        if(!(CurrentScale.x <= SizeToShrinkBy))
+		Debug.Log ("About to wait for 3 seconds");
+        
+		yield return new WaitForSeconds(3);
+        float CurrentScale = gameObject.transform.localScale.x;
+
+		Debug.Log ("SizeToShrinkBy: " + SizeToShrinkBy);
+		Debug.Log("Current Scale:" + CurrentScale);
+        
+		if(!(CurrentScale <= SizeToShrinkBy))
         {
-            //Debug.Log("3 Seconds up, shrinking block");
-            CurrentScale = new Vector3(CurrentScale.x - SizeToShrinkBy, CurrentScale.y, CurrentScale.z);
-            yield return new WaitForSeconds(2);
-            if(!(CurrentScale.x <= SizeToShrinkBy))
+            Debug.Log("3 Seconds up, shrinking block");
+			transform.localScale += new Vector3(-1.0f, 0, 0);
+			//gameObject.transform.localScale.Set(CurrentScale -SizeToShrinkBy, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+			Debug.Log("About to wait for 2 seconds");
+			yield return new WaitForSeconds(2);
+            if(!(CurrentScale <= SizeToShrinkBy))
             {
-                //Debug.Log("5 Seconds up, shrinking block");
-                CurrentScale = new Vector3(CurrentScale.x - SizeToShrinkBy, CurrentScale.y, CurrentScale.z);
+                Debug.Log("5 Seconds up, shrinking block");
+				transform.localScale += new Vector3(-1.0f, 0, 0);
+				//gameObject.transform.localScale.Set(CurrentScale - SizeToShrinkBy, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
                 yield return new WaitForSeconds(1);
-                //Debug.Log("6 Seconds up, destroying block");
+                Debug.Log("6 Seconds up, destroying block");
                 DestroyBlock();
             }
         }
     }
     void DestroyBlock()
     {
-        //Debug.Log("Block should be destroyed");
-        //DestroyObject(gameObject);
+		DestroyObject(gameObject);
     }
+	void Update()
+	{
+		if(transform.localScale.x > 0)
+		{
+			transform.localScale += new Vector3((0.2f) * -Time.deltaTime , 0, 0);
+		}
+		else
+		{
+			DestroyBlock();
+		}
+	}
 }

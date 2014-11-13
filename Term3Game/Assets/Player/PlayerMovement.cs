@@ -21,10 +21,12 @@ public class PlayerMovement : MonoBehaviour
 
     private HUDManager HUD;
 
-   public bool IsJumping = false;
-   public bool IsFalling = false;
-   public bool IsGrounded = true;
+    public bool IsJumping = false;
+    public bool IsFalling = false;
+    public bool IsGrounded = true;
 
+    private bool IsEarthPickedUp = false;
+    private bool IsFirePickedUp = false;
     public int GetPlayerDirection()
     {
         return LastPlayerDirection;
@@ -65,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
             IsFalling = true;
         }
        
-        if(Collision.gameObject.name.Contains("Earth_Block") && IsGrounded)
+        /*if(Collision.gameObject.name.Contains("Earth_Block") && IsGrounded)
         {
             //Debug.Log("Exit Earth Block & Grounded");
             IsGrounded = true;
@@ -76,12 +78,13 @@ public class PlayerMovement : MonoBehaviour
         {
             //Debug.Log("Exit Earth Block & !Jumping");
             IsFalling = true;
-        }
+        }*/
     }
     void OnCollisionEnter(Collision Collision)
     {
         PickUp Potion;
-        Power Power;
+        Earth Earth;
+		Fire Fire;
         PlayerActions PlayerActions = (PlayerActions)GameObject.Find("Player").GetComponent(typeof(PlayerActions));
 
         if (Collision.gameObject.name.Contains("LevelGround")) 
@@ -108,12 +111,18 @@ public class PlayerMovement : MonoBehaviour
             Potion = GameObject.Find("HealthPotion").GetComponent<PickUp>();
             PlayerActions.PickUpHealth(Potion);
         }
-        else if (Collision.gameObject.name.Contains("Power"))
+        else if (Collision.gameObject.name.Contains("Earth") && !IsEarthPickedUp)
         {
-            Power = GameObject.Find(Collision.gameObject.name).GetComponent<Power>();
-            PlayerActions.PickupPower(Power);
-            HUD.OnScreenDebugLine(Player.GetComponent(typeof(Player)).ToString());
+			Earth = (Earth)GameObject.Find(Collision.gameObject.name).GetComponent<Earth>();
+			PlayerActions.PickUpEarth(Earth);
+            IsEarthPickedUp = true;
         }
+		else if (Collision.gameObject.name.Contains("Fire") && !IsFirePickedUp)
+		{
+			Fire = (Fire)GameObject.Find(Collision.gameObject.name).GetComponent<Fire>();
+			PlayerActions.PickUpFire(Fire);
+            IsFirePickedUp = true;
+		}
     }
     protected void Jump()
     {

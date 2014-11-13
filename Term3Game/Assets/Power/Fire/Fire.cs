@@ -10,6 +10,13 @@ public class Fire : Power
     bool IsFireShieldActive;
     const int MIN_TIME = 10;
 
+	public HUDManager HUD;
+
+	public void Start()
+	{
+		HUD = (HUDManager)GameObject.Find("Camera").GetComponent<HUDManager>();
+	}
+
     public void ActivateFireShield()
     {
         IsFireShieldActive = true;
@@ -32,4 +39,10 @@ public class Fire : Power
     {
         TimeBetweenFireProjectiles += Time.deltaTime;
     }
+	public override void PickUp()
+	{
+		Debug.Log ("Fire Base Class Pickup");
+		base.PickUp();
+		HUD.UpdatePowers();
+	}
 }
