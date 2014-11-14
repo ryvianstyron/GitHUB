@@ -54,13 +54,15 @@
      <Compile Include="Assets\Player\PlayerMovement.cs" />
      <Compile Include="Assets\Player\PlayerPowerActions.cs" />
      <Compile Include="Assets\Power\Earth\Earth.cs" />
-     <Compile Include="Assets\Power\Earth\EarthBlockBehavior.cs" />
+     <Compile Include="Assets\Power\Earth\FallingBlockBehavior.cs" />
+     <Compile Include="Assets\Power\Earth\FloatingBlockBehavior.cs" />
      <Compile Include="Assets\Power\Fire\Fire.cs" />
      <Compile Include="Assets\Power\Power.cs" />
      <Compile Include="Assets\Power\Water\Water.cs" />
+     <Compile Include="Assets\SwitchBehavior.cs" />
      <Compile Include="Assets\Weapon\Weapon.cs" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/DarkRaveDev/Desktop/GitHUB-master/GitHUB-master/Term3Game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/DarkRaveDev/Documents/GitHUB/GitHUB/Term3Game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>

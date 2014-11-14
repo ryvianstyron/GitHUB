@@ -25,7 +25,7 @@ public class Earth : Power
 
     private const float BLOCK_OFFSET_X = 2.0f;
     private const float BLOCK_OFFSET_Y = 0.1f;
-    private const float BLOCK_OFFSET_Y_PLUS = 0.5f;
+    private const float BLOCK_OFFSET_Y_PLUS = 3.0f;
 
     private double TimeBetweenEarthProjectiles;
     private float TimeBetweenFloatingBlockCreations = MIN_FLOATING_BLOCK_TIME;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EarthBlockBehavior : MonoBehaviour 
+public class FloatingBlockBehavior : MonoBehaviour 
 {
     public float SizeToShrinkBy = 1.0f;
 	public float StartWidth;

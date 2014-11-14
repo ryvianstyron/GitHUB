@@ -33,12 +33,12 @@ public class PlayerPowerActions : MonoBehaviour
     {
         if (Input.GetKeyDown("1"))
         {
-            Debug.Log("Check Earth");
+            //Debug.Log("Check Earth");
             CheckIfPowerIsCollected("Earth");
         }
         else if(Input.GetKeyDown("2"))
         {
-            Debug.Log("Check Fire");
+            //Debug.Log("Check Fire");
             CheckIfPowerIsCollected("Fire");
         }
         else if (Input.GetKeyDown("a"))
@@ -64,7 +64,7 @@ public class PlayerPowerActions : MonoBehaviour
     }
 	public void DeactivateOtherPowers() // Uses Current Power
 	{
-        Debug.Log("DeactivateOtherPowers: PowersCollectedCount:" + Player.GetPowersCollected().Count);
+        //Debug.Log("DeactivateOtherPowers: PowersCollectedCount:" + Player.GetPowersCollected().Count);
 		foreach(Power PW in Player.GetPowersCollected ())
 		{
           

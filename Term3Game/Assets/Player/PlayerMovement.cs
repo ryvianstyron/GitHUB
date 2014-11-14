@@ -113,16 +113,16 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Collision.gameObject.name.Contains("Earth") && !IsEarthPickedUp)
         {
-			Earth = (Earth)GameObject.Find(Collision.gameObject.name).GetComponent<Earth>();
-			PlayerActions.PickUpEarth(Earth);
+            Earth = (Earth)GameObject.Find(Collision.gameObject.name).GetComponent<Earth>();
+            PlayerActions.PickUpEarth(Earth);
             IsEarthPickedUp = true;
         }
-		else if (Collision.gameObject.name.Contains("Fire") && !IsFirePickedUp)
-		{
-			Fire = (Fire)GameObject.Find(Collision.gameObject.name).GetComponent<Fire>();
-			PlayerActions.PickUpFire(Fire);
+        else if (Collision.gameObject.name.Contains("Fire") && !IsFirePickedUp)
+        {
+            Fire = (Fire)GameObject.Find(Collision.gameObject.name).GetComponent<Fire>();
+            PlayerActions.PickUpFire(Fire);
             IsFirePickedUp = true;
-		}
+        }
     }
     protected void Jump()
     {

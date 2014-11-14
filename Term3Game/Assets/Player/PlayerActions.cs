@@ -36,7 +36,7 @@ public class PlayerActions : MonoBehaviour
     }*/
 	public void PickUpEarth(Earth Earth)
 	{
-		Debug.Log ("PlayerActions PickUpEarth Earth Has:" + Earth.ToString());
+		//Debug.Log ("PlayerActions PickUpEarth Earth Has:" + Earth.ToString());
         Earth.ActivatePower();
         PlayerPowerActions.SetCurrentPower(Earth);
         Player.AddToPowerList(Earth);
@@ -45,7 +45,7 @@ public class PlayerActions : MonoBehaviour
 	}
 	public void PickUpFire(Fire Fire)
 	{
-		Debug.Log ("PlayerActions PickUpFire Fire Has: " + Fire.ToString());
+		//Debug.Log ("PlayerActions PickUpFire Fire Has: " + Fire.ToString());
 
         Fire.ActivatePower();
         PlayerPowerActions.SetCurrentPower(Fire);
