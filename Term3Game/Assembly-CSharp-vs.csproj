@@ -46,7 +46,11 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Camera\CameraFollower.cs" />
      <Compile Include="Assets\Camera\HUDManager.cs" />
+     <Compile Include="Assets\Checkpoint\CheckpointBehavior.cs" />
+     <Compile Include="Assets\Checkpoint\CheckpointsHolder.cs" />
+     <Compile Include="Assets\EarthBullet\BulletBehavior.cs" />
      <Compile Include="Assets\Enemy\Enemy.cs" />
      <Compile Include="Assets\PickUps\PickUp.cs" />
      <Compile Include="Assets\Player\Player.cs" />
@@ -59,7 +63,7 @@
      <Compile Include="Assets\Power\Fire\Fire.cs" />
      <Compile Include="Assets\Power\Power.cs" />
      <Compile Include="Assets\Power\Water\Water.cs" />
-     <Compile Include="Assets\SwitchBehavior.cs" />
+     <Compile Include="Assets\Switch\SwitchBehavior.cs" />
      <Compile Include="Assets\Weapon\Weapon.cs" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>C:/Users/DarkRaveDev/Documents/GitHUB/GitHUB/Term3Game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>

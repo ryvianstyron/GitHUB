@@ -21,11 +21,11 @@ public class PickUp : MonoBehaviour
     }
     public void ApplyPickupToPlayer()
     {
-        int PlayerHealth = Player.GetHealth();
-        int MaxPlayerHealth = Player.GetMaxHealth();
+        float PlayerHealth = Player.GetHealth();
+        float MaxPlayerHealth = Player.GetMaxHealth();
 
-        int PlayerMana = Player.GetMana();
-        int MaxPlayerMana = Player.GetMaxMana();
+        float PlayerMana = Player.GetMana();
+        float MaxPlayerMana = Player.GetMaxMana();
 
         if(PickUpType == 0) // Health
         {
@@ -37,7 +37,6 @@ public class PickUp : MonoBehaviour
             {
                 Player.SetHealth(PlayerHealth + PickUpAmount);
             }
-            HUD.UpdateHealthBarOnScreen();
         }
         else if(PickUpType == 1) // Mana
         {
@@ -49,7 +48,6 @@ public class PickUp : MonoBehaviour
             {
                 Player.SetMana(PlayerMana + PickUpAmount);
             }
-            HUD.UpdateManaBarOnScreen();
         }
         Destroy(gameObject);
     }

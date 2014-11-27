@@ -64,7 +64,6 @@ public class PlayerPowerActions : MonoBehaviour
     }
 	public void DeactivateOtherPowers() // Uses Current Power
 	{
-        //Debug.Log("DeactivateOtherPowers: PowersCollectedCount:" + Player.GetPowersCollected().Count);
 		foreach(Power PW in Player.GetPowersCollected ())
 		{
           

@@ -4,54 +4,68 @@ using System.Collections.Generic;
 using System;
 public class Player : MonoBehaviour 
 {
-	private int Health = 20;
-    private int MaxHealth = 100;
+    public GameObject JumpPoint;
+
+	private float Health = 100;
+    private float MaxHealth = 100;
 
     private int CurrentLevel = 1;
 
-    private int Mana = 20;
-    private int MaxMana = 100;
+    private float Mana = 100;
+    private float MaxMana = 100;
 
     GameObject GameManager;
     List<Power> PickedUpPowers = new List<Power>();
 
+    private CheckpointsHolder CheckpointsHolder;
+    private CameraFollower CameraFollower;
     void Start()
     {
-
+        CheckpointsHolder = (CheckpointsHolder)GameObject.Find("Camera").GetComponent<CheckpointsHolder>();
+    }
+    void Update()
+    {
+        if(Health == 0)
+        {
+            Vector3 SpawnAt = CheckpointsHolder.SpawnPlayerAtActiveCheckpoint();
+            transform.position = SpawnAt;
+            Health = 100;
+            Mana = 100;
+        }
     }
     public Player() 
     {
        
     }
-	public void SetHealth(int Health)
+    public void SetHealth(float Health)
 	{
 		this.Health = Health;
 	}
-	public int GetHealth()
+    public float GetHealth()
 	{
 		return Health;
 	}
-	public void SetMana(int Mana)
+    public void SetMana(float Mana)
 	{
 		this.Mana = Mana;
 	}
-	public int GetMana()
+    public float GetMana()
 	{
 		return Mana;
 	}
-	public void SetMaxHealth(int MaxHealth)
+    public void SetMaxHealth(float MaxHealth)
 	{
 		this.MaxHealth = MaxHealth;
 	}
-	public int GetMaxHealth()
+    public float GetMaxHealth()
 	{
 		return MaxHealth;
 	}
-	public void SetMaxMana(int MaxMana)
+    public void SetMaxMana(float MaxMana)
 	{
 		this.MaxMana = MaxMana;
 	}
-	public int GetMaxMana()
+    public float GetMaxMana()
 	{
 		return MaxMana;
 	}

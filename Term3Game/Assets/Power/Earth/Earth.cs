@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Earth : Power 
 {
+    public GameObject EarthBullet;
     List<GameObject> EarthBlocksOnScreen;
 
     private bool CanCreateFloatingBlock;
@@ -23,7 +24,7 @@ public class Earth : Power
     private float RangeInAngleDegrees;
     private float RangeinAngleRadians;
 
-    private const float BLOCK_OFFSET_X = 2.0f;
+    private const float BLOCK_OFFSET_X = 2.8f;
     private const float BLOCK_OFFSET_Y = 0.1f;
     private const float BLOCK_OFFSET_Y_PLUS = 3.0f;
 
@@ -104,11 +105,33 @@ public class Earth : Power
 	}
     public void ShootEarthProjecile()
     {
-        if(TimeBetweenEarthProjectiles >= MIN_PROJECTILE)
-        {
-            //Shoot 
+        //if(TimeBetweenEarthProjectiles >= MIN_PROJECTILE)
+        //{
+            GameObject InstantiateBullet;
+            Vector3 BulletSpawn;
+            if (Player.GetComponent<PlayerMovement>().GetPlayerDirection() == RIGHT)
+            {
+                //if (EnergyHealthMeter.GetEnergyHealth() > 0.0f)
+                //{
+                BulletSpawn = new Vector3(Player.transform.position.x + 1f, Player.transform.position.y + 1f, Player.transform.position.z);
+                    InstantiateBullet = (GameObject)Instantiate(EarthBullet, BulletSpawn, Quaternion.identity);
+                    InstantiateBullet.rigidbody.AddForce(EarthBullet.transform.up * 1500);
+                    //EnergyHealthMeter.UseEnergy(10);
+                //}
+
+            }
+            else if (Player.GetComponent<PlayerMovement>().GetPlayerDirection() == LEFT)
+            {
+                //if (EnergyHealthMeter.GetEnergyHealth() > 0.0f)
+                //{
+                    BulletSpawn = new Vector3(Player.transform.position.x - 1f, Player.transform.position.y + 1f, Player.transform.position.z);
+                    InstantiateBullet = (GameObject)Instantiate(EarthBullet, BulletSpawn, Quaternion.identity);
+                    InstantiateBullet.rigidbody.AddForce(-EarthBullet.transform.up * 1500);
+                    //EnergyHealthMeter.UseEnergy(10);
+                //}
+            }
             TimeBetweenEarthProjectiles = 0;
-        }
+        //}
     }
     public void DestroyAllBlocks()
     {

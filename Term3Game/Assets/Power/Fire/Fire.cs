@@ -41,7 +41,6 @@ public class Fire : Power
     }
 	public override void PickUp()
 	{
-		Debug.Log ("Fire Base Class Pickup");
 		base.PickUp();
 		HUD.UpdatePowers();
 	}

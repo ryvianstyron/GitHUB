@@ -4,9 +4,8 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 public class HUDManager : MonoBehaviour 
 {
-    public Text ManaText;
-    public Text HealthText;
-    public Text Debugger;
+    public Image HealthImage;
+    public Image ManaImage;
 
 	public Image FireCollected;
 	public Image EarthCollected;
@@ -17,20 +16,18 @@ public class HUDManager : MonoBehaviour
     {
 		FireCollected.canvasRenderer.SetAlpha(0.0f);
 		EarthCollected.canvasRenderer.SetAlpha (0.0f);
-	
         Player = (Player)PlayerGameObject.GetComponent(typeof(Player));
-
-        HealthText.text = "Health: " + Player.GetHealth();
-        ManaText.text = "Mana: " + Player.GetMana();
+        HealthImage.fillAmount = 1 * (Player.GetHealth() / Player.GetMaxHealth());
+        ManaImage.fillAmount = 1 * (Player.GetMana() / Player.GetMaxMana());
     }
     void Update()
     {
-       
-    }
+        HealthImage.fillAmount = 1 * (Player.GetHealth() / Player.GetMaxHealth());
+        ManaImage.fillAmount =  1 * (Player.GetMana() / Player.GetMaxMana());
+    } 
 	public void UpdatePowers()
 	{
 		List<Power> PlayerPowers = Player.GetPowersCollected();
-		//Debug.Log("Update Powers in HUD: PlayerPowersCount: " + PlayerPowers.Count);
 		foreach(Power PW in PlayerPowers)
 		{
 			// Set Alpha to collected
@@ -54,14 +51,6 @@ public class HUDManager : MonoBehaviour
 			EarthCollected.canvasRenderer.SetAlpha(Alpha);
 		}
 	}
-    public void UpdateHealthBarOnScreen()
-    {
-        HealthText.text = "Health: " + Player.GetHealth();
-    }
-    public void UpdateManaBarOnScreen()
-    {
-        ManaText.text = "Mana: " + Player.GetMana();
-    }
     public void DrawDamageTakenEffect()
     {
 
@@ -73,9 +62,5 @@ public class HUDManager : MonoBehaviour
     public void DrawManaReplinishedEffect()
     {
 
-    }
-    public void OnScreenDebugLine(string DebugLine)
-    {
-        Debugger.text ="DEBUG:" + DebugLine;
     }
 }

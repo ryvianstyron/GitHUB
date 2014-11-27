@@ -3,19 +3,18 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private int LastPlayerDirection;
-    public GameObject Player;
     private Rigidbody PlayerRigidBody;
 
     private const int LEFT = 0;
     private const int RIGHT = 1;
     private const int DEATH_DISTANCE = -25;
 
-    public float MovementSpeedMax;
-    private Vector3 MovementSpeedMaxTest;
-    public int MovementSpeed; // 250
+    private int LastPlayerDirection = RIGHT;
 
-    public float JumpSpeed = 20;
+    public Vector3 MovementSpeedMax;
+    private int MovementSpeed; // 250
+
+    private float JumpSpeed;
     private GameObject PlayerGameObject;
     public GameObject WeaponMace;
 
@@ -27,24 +26,34 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsEarthPickedUp = false;
     private bool IsFirePickedUp = false;
-    public int GetPlayerDirection()
-    {
-        return LastPlayerDirection;
-    }
+
+    private Player PlayerScript;
+    private CheckpointsHolder CheckpointsHolder;
+
+    public GameObject PlayerGO;
     void Start()
     {
+        MovementSpeed = 8;
+        JumpSpeed = 55;
         HUD = GameObject.Find("Camera").GetComponent<HUDManager>();
 
         PlayerGameObject = GameObject.Find("Player");
         PlayerRigidBody = PlayerGameObject.GetComponent<Rigidbody>();
 
-        MovementSpeedMaxTest = PlayerRigidBody.transform.forward * MovementSpeed;
+        MovementSpeedMax = PlayerRigidBody.transform.forward * MovementSpeed;
+        PlayerScript = PlayerGameObject.GetComponent<Player>();
+
+        CheckpointsHolder = GameObject.Find("Camera").GetComponent<CheckpointsHolder>();
+    }
+    public int GetPlayerDirection()
+    {
+        return LastPlayerDirection;
     }
     void FixedUpdate()
     {
-        if (PlayerRigidBody.transform.position.y < DEATH_DISTANCE)
+        if(IsGrounded)
         {
-            HUD.OnScreenDebugLine("Player Should totally be dead right now");
+            DrawJumpPoint(LastPlayerDirection);
         }
         if (Input.GetKeyDown("up") && IsGrounded)
         {
@@ -63,7 +72,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Collision.gameObject.name.Contains("LevelGround") && !IsJumping) 
         {
-            //Debug.Log("Exit Level Ground");
             IsFalling = true;
         }
        
@@ -85,18 +93,16 @@ public class PlayerMovement : MonoBehaviour
         PickUp Potion;
         Earth Earth;
 		Fire Fire;
-        PlayerActions PlayerActions = (PlayerActions)GameObject.Find("Player").GetComponent(typeof(PlayerActions));
+        PlayerActions PlayerActions = PlayerGO.GetComponent<PlayerActions>();
 
         if (Collision.gameObject.name.Contains("LevelGround")) 
         {
-            //Debug.Log("Collision level Ground");
             IsFalling = false;
             IsGrounded = true;
             IsJumping = false;
         }
         if (Collision.gameObject.name.Contains("Earth_Block"))
         {
-            //Debug.Log("Collision Earth Block");
             IsFalling = false;
             IsGrounded = true;
             IsJumping = false;
@@ -124,25 +130,74 @@ public class PlayerMovement : MonoBehaviour
             IsFirePickedUp = true;
         }
     }
+    void OnTriggerEnter(Collider Collider)
+    {
+        if(Collider.gameObject.name.Contains("DeathTrigger"))
+        {
+            PlayerScript.SetHealth(0);
+        }
+        else if(Collider.gameObject.name.Contains("Checkpoint"))
+        {
+            CheckpointBehavior CheckpointBehavior = Collider.gameObject.GetComponent<CheckpointBehavior>();
+            CheckpointsHolder.ActivateCheckPointWithNumber(CheckpointBehavior.GetCheckpointNumber());
+        }
+    }
     protected void Jump()
     {
-        PlayerRigidBody.AddForce(new Vector3(0, 10, 0) * JumpSpeed);
+        PlayerRigidBody.AddForce(new Vector3(0, 5f, 0) * JumpSpeed);
+        if (LastPlayerDirection == RIGHT)
+        {
+            PlayerRigidBody.AddForce(new Vector3(2.5f, 0, 0) * JumpSpeed);
+        }
+        else if (LastPlayerDirection == LEFT)
+        {
+            PlayerRigidBody.AddForce(new Vector3(-2.5f, 0, 0) * JumpSpeed);
+        }
         IsJumping = true;
         IsFalling = true;
         IsGrounded = false;
+
+        /*PlayerRigidBody.AddForce(new Vector3(0, 10, 0) * JumpSpeed);
+        IsJumping = true;
+        IsFalling = true;
+        IsGrounded = false;*/
     }
     protected void Run(int Direction)
     {
-        PlayerRigidBody.velocity = MovementSpeedMaxTest; // MovementSpeedMaxText is a Vector3
+        PlayerRigidBody.velocity = MovementSpeedMax; // MovementSpeedMaxText is a Vector3
         if (Direction == LEFT)
         {
-            PlayerRigidBody.AddForce(Vector3.left * MovementSpeed);
+            //gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            float moveLeft = MovementSpeed * Time.smoothDeltaTime * Input.GetAxis("Horizontal");
+            transform.Translate(-Vector3.left * moveLeft);
+            
+            //PlayerRigidBody.AddForce(Vector3.left * MovementSpeed);
             LastPlayerDirection = LEFT;
         }
         else if (Direction == RIGHT)
         {
-            PlayerRigidBody.AddForce(Vector3.right * MovementSpeed);
+            //gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+            float moveRight = MovementSpeed * Time.smoothDeltaTime * Input.GetAxis("Horizontal");
+            transform.Translate(Vector3.right * moveRight);
+
+            //PlayerRigidBody.AddForce(Vector3.right * MovementSpeed);
             LastPlayerDirection = RIGHT;
         }
+    }
+    private void DrawJumpPoint(int Direction)
+    {
+        Vector3 JumpPointPosition = Vector3.zero;
+        if(IsGrounded)
+        {
+            if(Direction == LEFT)
+            {
+                JumpPointPosition = new Vector3(transform.position.x - 2.8f, transform.position.y, transform.position.z);
+            }
+            else if(Direction == RIGHT)
+            {
+                JumpPointPosition = new Vector3(transform.position.x + 2.8f, transform.position.y, transform.position.z);
+            }
+        }
+        GameObject.Find("JumpPoint").transform.position = JumpPointPosition;
     }
 }
