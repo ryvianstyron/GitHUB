@@ -14,8 +14,10 @@ public class HUDManager : MonoBehaviour
     private Player Player;
     void Start()
     {
+
 		FireCollected.canvasRenderer.SetAlpha(0.0f);
 		EarthCollected.canvasRenderer.SetAlpha (0.0f);
+        
         Player = (Player)PlayerGameObject.GetComponent(typeof(Player));
         HealthImage.fillAmount = 1 * (Player.GetHealth() / Player.GetMaxHealth());
         ManaImage.fillAmount = 1 * (Player.GetMana() / Player.GetMaxMana());

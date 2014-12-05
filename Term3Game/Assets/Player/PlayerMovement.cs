@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnCollisionExit(Collision Collision)
     {
-        if (Collision.gameObject.name.Contains("LevelGround") && !IsJumping) 
+        if (Collision.gameObject.tag.Contains("LevelGround") && !IsJumping) 
         {
             IsFalling = true;
         }
@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
 		Fire Fire;
         PlayerActions PlayerActions = PlayerGO.GetComponent<PlayerActions>();
 
-        if (Collision.gameObject.name.Contains("LevelGround")) 
+        if (Collision.gameObject.tag.Contains("LevelGround")) 
         {
             IsFalling = false;
             IsGrounded = true;
