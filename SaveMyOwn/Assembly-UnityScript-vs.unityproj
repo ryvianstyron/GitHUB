@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{7F9786C7-85C4-1B87-F1AF-A6C074901D48}</ProjectGuid>
+	<ProjectGuid>{CA18D90B-C171-DEA0-0928-9F3ECBE2128A}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -48,7 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Camera\CameraFollow.js" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/DarkRaveDev/Documents/GitHUB/GitHUB/Term3Game/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/DarkRaveDev/Documents/GitHUB/GitHUB/SaveMyOwn/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
