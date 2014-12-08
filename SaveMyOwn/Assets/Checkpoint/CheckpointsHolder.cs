@@ -6,6 +6,7 @@ public class CheckpointsHolder : MonoBehaviour
 {
     public GameObject Checkpoint1;
     public GameObject Checkpoint2;
+    public GameObject Checkpoint3;
 
     List<GameObject> Checkpoints = new List<GameObject>();
     Player Player;
@@ -14,6 +15,7 @@ public class CheckpointsHolder : MonoBehaviour
     {
         Checkpoints.Add(Checkpoint1);
         Checkpoints.Add(Checkpoint2);
+        Checkpoints.Add(Checkpoint3);
 
         Player = GameObject.Find("Player").GetComponent<Player>();
 	}

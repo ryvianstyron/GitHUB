@@ -20,8 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     private HUDManager HUD;
 
-    public bool IsJumping = false;
-    public bool IsFalling = false;
+    public bool IsInMidair = false;
     public bool IsGrounded = true;
 
     private bool IsEarthPickedUp = false;
@@ -29,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Player PlayerScript;
     private CheckpointsHolder CheckpointsHolder;
+
+    private bool Entered;
 
     public GameObject PlayerGO;
     void Start()
@@ -59,34 +60,32 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
         }
-        else if (Input.GetKey("left") && !IsJumping && !IsFalling)
+        else if (Input.GetKey("left") && !IsInMidair)
         {
             Run(LEFT);
         }
-        else if (Input.GetKey("right") && !IsJumping && !IsFalling)
+        else if (Input.GetKey("right") && !IsInMidair)
         {
             Run(RIGHT);
         }
     }
+    void OnCollisionStay(Collision Collision)
+    {
+        if(Collision.gameObject.tag.Contains("LevelGround"))
+        {
+            Debug.Log("OnCollisonStay: " + Collision.gameObject.tag);
+            IsInMidair = false;
+            IsGrounded = true;
+        }
+    }
     void OnCollisionExit(Collision Collision)
     {
-        if (Collision.gameObject.tag.Contains("LevelGround") && !IsJumping) 
+        if (Collision.gameObject.tag.Contains("Ledge"))
         {
-            IsFalling = true;
-        }
-       
-        /*if(Collision.gameObject.name.Contains("Earth_Block") && IsGrounded)
-        {
-            //Debug.Log("Exit Earth Block & Grounded");
-            IsGrounded = true;
-            IsFalling = false;
-            IsJumping = false;
-        }
-        if (Collision.gameObject.name.Contains("Earth_Block") && !IsJumping)
-        {
-            //Debug.Log("Exit Earth Block & !Jumping");
-            IsFalling = true;
-        }*/
+            Debug.Log("OnCollisionExit: " + Collision.gameObject.tag);
+            IsInMidair = true;
+            IsGrounded = false;
+        }     
     }
     void OnCollisionEnter(Collision Collision)
     {
@@ -95,19 +94,13 @@ public class PlayerMovement : MonoBehaviour
 		Fire Fire;
         PlayerActions PlayerActions = PlayerGO.GetComponent<PlayerActions>();
 
-        if (Collision.gameObject.tag.Contains("LevelGround")) 
+        if (Collision.gameObject.tag.Contains("Ledge")) 
         {
-            IsFalling = false;
+            Debug.Log("OnCollisionEnter: " + Collision.gameObject.tag);
             IsGrounded = true;
-            IsJumping = false;
+            IsInMidair = false;
         }
-        if (Collision.gameObject.name.Contains("Earth_Block"))
-        {
-            IsFalling = false;
-            IsGrounded = true;
-            IsJumping = false;
-        }
-        if (Collision.gameObject.name.Contains("ManaPotion"))
+        else if(Collision.gameObject.name.Contains("ManaPotion"))
         {
             Potion = GameObject.Find("ManaPotion").GetComponent<PickUp>();
             PlayerActions.PickUpMana(Potion);
@@ -132,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void OnTriggerEnter(Collider Collider)
     {
-        if(Collider.gameObject.name.Contains("DeathTrigger"))
+        if(Collider.gameObject.tag.Contains("DeathTrigger"))
         {
             PlayerScript.SetHealth(0);
         }
@@ -144,23 +137,16 @@ public class PlayerMovement : MonoBehaviour
     }
     protected void Jump()
     {
-        PlayerRigidBody.AddForce(new Vector3(0, 5f, 0) * JumpSpeed);
         if (LastPlayerDirection == RIGHT)
         {
-            PlayerRigidBody.AddForce(new Vector3(2.5f, 0, 0) * JumpSpeed);
+            PlayerRigidBody.AddForce(new Vector3(3f, 6f, 0) * JumpSpeed);
         }
         else if (LastPlayerDirection == LEFT)
         {
-            PlayerRigidBody.AddForce(new Vector3(-2.5f, 0, 0) * JumpSpeed);
+            PlayerRigidBody.AddForce(new Vector3(-3f, 6f, 0) * JumpSpeed);
         }
-        IsJumping = true;
-        IsFalling = true;
+        IsInMidair = true;
         IsGrounded = false;
-
-        /*PlayerRigidBody.AddForce(new Vector3(0, 10, 0) * JumpSpeed);
-        IsJumping = true;
-        IsFalling = true;
-        IsGrounded = false;*/
     }
     protected void Run(int Direction)
     {
