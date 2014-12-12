@@ -6,12 +6,12 @@ public class Player : MonoBehaviour
 {
     public GameObject JumpPoint;
 
-	private float Health = 100;
+	private float Health = 80;
     private float MaxHealth = 100;
 
     private int CurrentLevel = 1;
 
-    private float Mana = 100;
+    private float Mana = 65;
     private float MaxMana = 100;
 
     GameObject GameManager;

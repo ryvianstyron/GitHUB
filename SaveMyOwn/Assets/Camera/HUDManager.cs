@@ -11,10 +11,12 @@ public class HUDManager : MonoBehaviour
 	public Image EarthCollected;
 
     public GameObject PlayerGameObject;
+
+	public Text Message;
     private Player Player;
     void Start()
     {
-
+		Message.text = "";
 		FireCollected.canvasRenderer.SetAlpha(0.0f);
 		EarthCollected.canvasRenderer.SetAlpha (0.0f);
         

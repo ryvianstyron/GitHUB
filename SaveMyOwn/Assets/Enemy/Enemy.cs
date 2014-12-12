@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
     public string EnemyName;
     public int Type;
     public int Health;
-	
+	public int Damage;
     public void SetHealth(int Health)
     {
         this.Health = Health;
@@ -22,4 +22,8 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+	public int GetDamageInflicted()
+	{
+		return Damage;
+	}
 }

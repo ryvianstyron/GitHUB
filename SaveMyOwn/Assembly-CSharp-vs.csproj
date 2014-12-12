@@ -66,7 +66,7 @@
      <Compile Include="Assets\Switch\SwitchBehavior.cs" />
      <Compile Include="Assets\Weapon\Weapon.cs" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/DarkRaveDev/Documents/GitHUB/Term3_SaveMyOwn/SaveMyOwn/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/DarkRaveDev/Desktop/SaveMyOwn/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity4.6B/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>

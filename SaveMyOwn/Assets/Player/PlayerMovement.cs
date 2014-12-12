@@ -3,25 +3,22 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody PlayerRigidBody;
-
     private const int LEFT = 0;
     private const int RIGHT = 1;
-    private const int DEATH_DISTANCE = -25;
 
-    private int LastPlayerDirection = RIGHT;
+    private int LastPlayerDirection;
 
     public Vector3 MovementSpeedMax;
     private int MovementSpeed; // 250
 
     private float JumpSpeed;
-    private GameObject PlayerGameObject;
     public GameObject WeaponMace;
 
     private HUDManager HUD;
 
-    public bool IsInMidair = false;
-    public bool IsGrounded = true;
+    public bool IsInMidair; 
+    public bool IsGrounded;
+    public bool LedgeTriggerActivated;
 
     private bool IsEarthPickedUp = false;
     private bool IsFirePickedUp = false;
@@ -29,63 +26,92 @@ public class PlayerMovement : MonoBehaviour
     private Player PlayerScript;
     private CheckpointsHolder CheckpointsHolder;
 
-    private bool Entered;
-
     public GameObject PlayerGO;
-    void Start()
+    void Awake()
     {
-        MovementSpeed = 8;
-        JumpSpeed = 55;
+        IsInMidair = true;
+        IsGrounded = false;
+
+        MovementSpeed = 250;
+        JumpSpeed = 250f;
+
         HUD = GameObject.Find("Camera").GetComponent<HUDManager>();
 
-        PlayerGameObject = GameObject.Find("Player");
-        PlayerRigidBody = PlayerGameObject.GetComponent<Rigidbody>();
-
-        MovementSpeedMax = PlayerRigidBody.transform.forward * MovementSpeed;
-        PlayerScript = PlayerGameObject.GetComponent<Player>();
+        MovementSpeedMax = gameObject.rigidbody.transform.forward * MovementSpeed;
+        PlayerScript = gameObject.GetComponent<Player>();
 
         CheckpointsHolder = GameObject.Find("Camera").GetComponent<CheckpointsHolder>();
     }
-    public int GetPlayerDirection()
+    void Update()
     {
-        return LastPlayerDirection;
-    }
-    void FixedUpdate()
-    {
-        if(IsGrounded)
+        if (IsGrounded)
         {
             DrawJumpPoint(LastPlayerDirection);
         }
-        if (Input.GetKeyDown("up") && IsGrounded)
+        // JUMP
+        if (IsGrounded && Input.GetKeyDown("up"))
         {
             Jump();
+            IsInMidair = true;
+            IsGrounded = false;
         }
-        else if (Input.GetKey("left") && !IsInMidair)
+        // MOVE
+        if (!IsInMidair && IsGrounded && Input.GetKey("left"))
         {
             Run(LEFT);
         }
-        else if (Input.GetKey("right") && !IsInMidair)
+        else if(!IsInMidair && IsGrounded && Input.GetKey("right"))
         {
             Run(RIGHT);
         }
+		// STOP SLIDING WHEN PLAYER LETS GO
+		if (Input.GetKeyUp("left") || Input.GetKeyUp("right"))
+		{
+			StopSliding();
+		}
     }
-    void OnCollisionStay(Collision Collision)
+	void StopSliding()
+	{
+		if(LastPlayerDirection == RIGHT)
+		{
+			gameObject.rigidbody.AddForce(Vector3.right * (MovementSpeed/100));
+		}
+		else if(LastPlayerDirection == LEFT)
+		{
+			gameObject.rigidbody.AddForce(Vector3.left * (MovementSpeed/100));
+		}
+	}
+    void OnTriggerEnter(Collider Collider)
     {
-        if(Collision.gameObject.tag.Contains("LevelGround"))
+        // ON TOP OF LEDGE
+        if (Collider.gameObject.tag.Contains("Ledge"))
         {
-            Debug.Log("OnCollisonStay: " + Collision.gameObject.tag);
-            IsInMidair = false;
+            LedgeTriggerActivated = true;
             IsGrounded = true;
+            IsInMidair = false;
+        }
+        // ON TOP OF DEATH TRIGGER
+        if (Collider.gameObject.tag.Contains("DeathTrigger"))
+        {
+            PlayerScript.SetHealth(0);
+        }
+        // FULL TRIGGER CHECKPOINT
+        else if (Collider.gameObject.name.Contains("Checkpoint"))
+        {
+            CheckpointBehavior CheckpointBehavior = Collider.gameObject.GetComponent<CheckpointBehavior>();
+            CheckpointsHolder.ActivateCheckPointWithNumber(CheckpointBehavior.GetCheckpointNumber());
+			HUD.Message.text = "Checkpoint " + CheckpointBehavior.GetCheckpointNumber() + " activated!";
         }
     }
-    void OnCollisionExit(Collision Collision)
+    public void OnTriggerExit(Collider Collider)
     {
-        if (Collision.gameObject.tag.Contains("Ledge"))
+        // EXIT FROM TOP
+        if (Collider.gameObject.tag.Contains("Ledge"))
         {
-            Debug.Log("OnCollisionExit: " + Collision.gameObject.tag);
+            LedgeTriggerActivated = false;
             IsInMidair = true;
             IsGrounded = false;
-        }     
+        }
     }
     void OnCollisionEnter(Collision Collision)
     {
@@ -93,80 +119,96 @@ public class PlayerMovement : MonoBehaviour
         Earth Earth;
 		Fire Fire;
         PlayerActions PlayerActions = PlayerGO.GetComponent<PlayerActions>();
+		Enemy EnemyScript;
 
-        if (Collision.gameObject.tag.Contains("Ledge")) 
+        // HITTING LEDGE FROM SIDE
+        if (!LedgeTriggerActivated && Collision.gameObject.tag.Contains("Ledge"))
         {
-            Debug.Log("OnCollisionEnter: " + Collision.gameObject.tag);
+            if (LastPlayerDirection == RIGHT)
+            {
+                gameObject.rigidbody.AddForce(Vector3.left * (MovementSpeed / 3));
+            }
+            else if (LastPlayerDirection == LEFT)
+            {
+                gameObject.rigidbody.AddForce(Vector3.right * (MovementSpeed / 3));
+            }
             IsGrounded = true;
             IsInMidair = false;
         }
+        // HITTING FROM SIDE AND TOP LEVELGROUND
+        if (Collision.gameObject.tag.Contains("LevelGround"))
+        {
+            IsGrounded = true;
+            IsInMidair = false;
+        }
+		else if(Collision.gameObject.name.Contains ("Enemy"))
+		{
+			HUD.Message.text = "Enemy Collision!";
+			EnemyScript = (Enemy) Collision.gameObject.GetComponent<Enemy>();
+			PlayerScript.SetHealth(PlayerScript.GetHealth() - EnemyScript.GetDamageInflicted());
+			Destroy(Collision.gameObject);
+		}
         else if(Collision.gameObject.name.Contains("ManaPotion"))
         {
+			HUD.Message.text = "Picked Up Mana Potion";
             Potion = GameObject.Find("ManaPotion").GetComponent<PickUp>();
             PlayerActions.PickUpMana(Potion);
         }
         else if (Collision.gameObject.name.Contains("HealthPotion"))
         {
+			HUD.Message.text = "Picked Up Health Potion";
             Potion = GameObject.Find("HealthPotion").GetComponent<PickUp>();
             PlayerActions.PickUpHealth(Potion);
         }
         else if (Collision.gameObject.name.Contains("Earth") && !IsEarthPickedUp)
         {
+			HUD.Message.text = "Collected Earth Power!";
             Earth = (Earth)GameObject.Find(Collision.gameObject.name).GetComponent<Earth>();
             PlayerActions.PickUpEarth(Earth);
             IsEarthPickedUp = true;
         }
         else if (Collision.gameObject.name.Contains("Fire") && !IsFirePickedUp)
         {
+			HUD.Message.text = "Collected Fire Power!";
             Fire = (Fire)GameObject.Find(Collision.gameObject.name).GetComponent<Fire>();
             PlayerActions.PickUpFire(Fire);
             IsFirePickedUp = true;
         }
     }
-    void OnTriggerEnter(Collider Collider)
+    public void OnCollisionExit(Collision Collision)
     {
-        if(Collider.gameObject.tag.Contains("DeathTrigger"))
+        if(Collision.gameObject.tag.Contains("LevelGround"))
         {
-            PlayerScript.SetHealth(0);
+            IsInMidair = true;
+            IsGrounded = false;
         }
-        else if(Collider.gameObject.name.Contains("Checkpoint"))
+        if(Collision.gameObject.tag.Contains("Ledge") && IsGrounded)
         {
-            CheckpointBehavior CheckpointBehavior = Collider.gameObject.GetComponent<CheckpointBehavior>();
-            CheckpointsHolder.ActivateCheckPointWithNumber(CheckpointBehavior.GetCheckpointNumber());
+            IsInMidair = false;
+            IsGrounded = true;
         }
     }
     protected void Jump()
     {
-        if (LastPlayerDirection == RIGHT)
-        {
-            PlayerRigidBody.AddForce(new Vector3(3f, 6f, 0) * JumpSpeed);
-        }
-        else if (LastPlayerDirection == LEFT)
-        {
-            PlayerRigidBody.AddForce(new Vector3(-3f, 6f, 0) * JumpSpeed);
-        }
-        IsInMidair = true;
-        IsGrounded = false;
+        gameObject.rigidbody.AddForce(Vector3.up * JumpSpeed);
     }
     protected void Run(int Direction)
     {
-        PlayerRigidBody.velocity = MovementSpeedMax; // MovementSpeedMaxText is a Vector3
+        gameObject.rigidbody.velocity = MovementSpeedMax; // MovementSpeedMaxText is a Vector3
         if (Direction == LEFT)
         {
             //gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
             float moveLeft = MovementSpeed * Time.smoothDeltaTime * Input.GetAxis("Horizontal");
-            transform.Translate(-Vector3.left * moveLeft);
-            
-            //PlayerRigidBody.AddForce(Vector3.left * MovementSpeed);
+            //transform.Translate(-Vector3.left * moveLeft);
+            gameObject.rigidbody.AddForce(Vector3.left * MovementSpeed);
             LastPlayerDirection = LEFT;
         }
         else if (Direction == RIGHT)
         {
             //gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
             float moveRight = MovementSpeed * Time.smoothDeltaTime * Input.GetAxis("Horizontal");
-            transform.Translate(Vector3.right * moveRight);
-
-            //PlayerRigidBody.AddForce(Vector3.right * MovementSpeed);
+            //transform.Translate(Vector3.right * moveRight);
+            gameObject.rigidbody.AddForce(Vector3.right * MovementSpeed);
             LastPlayerDirection = RIGHT;
         }
     }
@@ -185,5 +227,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         GameObject.Find("JumpPoint").transform.position = JumpPointPosition;
+    }
+    public int GetPlayerDirection()
+    {
+        return LastPlayerDirection;
     }
 }

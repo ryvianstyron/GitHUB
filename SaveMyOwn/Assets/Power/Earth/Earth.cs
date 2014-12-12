@@ -59,7 +59,7 @@ public class Earth : Power
             switch (FacingDirection)
             {
                 case LEFT:
-                    BlockSpawnPoint = new Vector3(PlayerCurrentPosition.x - BLOCK_OFFSET_X, PlayerCurrentPosition.y + BLOCK_OFFSET_Y_PLUS, PlayerCurrentPosition.z);
+                    BlockSpawnPoint = new Vector3(PlayerCurrentPosition.x - BLOCK_OFFSET_X , PlayerCurrentPosition.y + BLOCK_OFFSET_Y_PLUS, PlayerCurrentPosition.z);
                     GameObject FloatingLeftBlock = (GameObject)Instantiate(Earth_Block_Falling, BlockSpawnPoint, Quaternion.identity);
                     EarthBlocksOnScreen.Add(FloatingLeftBlock);
                     TimeBetweenFallingBlockCreations = 0;
@@ -83,13 +83,13 @@ public class Earth : Power
             switch (FacingDirection)
             {
                 case LEFT:
-                    BlockSpawnPoint = new Vector3(PlayerCurrentPosition.x - BLOCK_OFFSET_X, PlayerCurrentPosition.y + BLOCK_OFFSET_Y, PlayerCurrentPosition.z);
+                    BlockSpawnPoint = new Vector3(PlayerCurrentPosition.x - (BLOCK_OFFSET_X + 3), PlayerCurrentPosition.y + BLOCK_OFFSET_Y, PlayerCurrentPosition.z);
                     GameObject FallingLeftBlock = (GameObject)Instantiate(Earth_Block_Floating, BlockSpawnPoint, Quaternion.identity);
                     EarthBlocksOnScreen.Add(FallingLeftBlock);
                     TimeBetweenFloatingBlockCreations = 0;
                     break;
                 case RIGHT:
-                    BlockSpawnPoint = new Vector3(PlayerCurrentPosition.x + BLOCK_OFFSET_X, PlayerCurrentPosition.y + BLOCK_OFFSET_Y, PlayerCurrentPosition.z);
+                    BlockSpawnPoint = new Vector3(PlayerCurrentPosition.x + (BLOCK_OFFSET_X + 3), PlayerCurrentPosition.y + BLOCK_OFFSET_Y, PlayerCurrentPosition.z);
                     GameObject FallingRightBlock = (GameObject)Instantiate(Earth_Block_Floating, BlockSpawnPoint, Quaternion.identity);
                     EarthBlocksOnScreen.Add(FallingRightBlock);
                     TimeBetweenFloatingBlockCreations = 0;

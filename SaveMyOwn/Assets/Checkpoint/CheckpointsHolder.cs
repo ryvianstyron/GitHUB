@@ -7,6 +7,8 @@ public class CheckpointsHolder : MonoBehaviour
     public GameObject Checkpoint1;
     public GameObject Checkpoint2;
     public GameObject Checkpoint3;
+	public GameObject Checkpoint4;
+	public GameObject Checkpoint5;
 
     List<GameObject> Checkpoints = new List<GameObject>();
     Player Player;
@@ -16,6 +18,8 @@ public class CheckpointsHolder : MonoBehaviour
         Checkpoints.Add(Checkpoint1);
         Checkpoints.Add(Checkpoint2);
         Checkpoints.Add(Checkpoint3);
+		Checkpoints.Add(Checkpoint4);
+		Checkpoints.Add(Checkpoint5);
 
         Player = GameObject.Find("Player").GetComponent<Player>();
 	}

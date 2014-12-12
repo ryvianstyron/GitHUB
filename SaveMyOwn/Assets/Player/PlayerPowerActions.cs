@@ -33,12 +33,12 @@ public class PlayerPowerActions : MonoBehaviour
     {
         if (Input.GetKeyDown("1"))
         {
-            //Debug.Log("Check Earth");
+			HUD.Message.text = "Activate Earth Power!";
             CheckIfPowerIsCollected("Earth");
         }
         else if(Input.GetKeyDown("2"))
         {
-            //Debug.Log("Check Fire");
+			HUD.Message.text = "Activate Fire Power!";
             CheckIfPowerIsCollected("Fire");
         }
         else if (Input.GetKeyDown("a"))
@@ -95,12 +95,15 @@ public class PlayerPowerActions : MonoBehaviour
             switch (Action)
             {
                 case PRIMARY_ACTION:
+					HUD.Message.text = "Create Earth Stair Step!";
                     Earth.CreateFloatingBlock();
                     break;
                 case SECONDRY_ACTION:
+					HUD.Message.text = "Create Earth Block!";
                     Earth.CreateFallingBlock();
                     break;
                 case TERTIARY_ACTION:
+					HUD.Message.text = "Shot Earth Projectile!";
                     Earth.ShootEarthProjecile();
                     break;
                 case FOURTH_ACTION:
@@ -113,13 +116,16 @@ public class PlayerPowerActions : MonoBehaviour
             switch (Action)
             {
                 case PRIMARY_ACTION:
+					HUD.Message.text = "Activate Fire Shield!";
                     Fire.ActivateFireShield();
                     break;
                 case SECONDRY_ACTION:
-                    Fire.DeactivateFireShield();
+					HUD.Message.text = "Deactivate Fire Shield!";
+					Fire.DeactivateFireShield();
                     break;
                 case TERTIARY_ACTION:
-                    Fire.ShootFireProjectile();
+					HUD.Message.text = "Shot Fire Projectile!";
+					Fire.ShootFireProjectile();
                     break;
                 default:
                     break;
