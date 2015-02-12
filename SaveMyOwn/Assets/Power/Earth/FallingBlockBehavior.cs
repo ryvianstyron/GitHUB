@@ -3,7 +3,7 @@ using System.Collections;
 
 public class FallingBlockBehavior : MonoBehaviour 
 {
-    public float SizeToShrinkBy;
+    private const float SHRINK_BY = 0.5f;
     private float StartWidth;
     private float StartHeight;
     private float StartLength;
@@ -19,9 +19,9 @@ public class FallingBlockBehavior : MonoBehaviour
 	    if(transform.localScale.x > 0)
         {
             transform.localScale += new Vector3(
-                SizeToShrinkBy * -Time.deltaTime,
-                SizeToShrinkBy * -Time.deltaTime,
-                SizeToShrinkBy * -Time.deltaTime);
+                SHRINK_BY * -Time.deltaTime,
+                SHRINK_BY * -Time.deltaTime,
+                SHRINK_BY * -Time.deltaTime);
         }
         else
         {

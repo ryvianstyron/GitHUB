@@ -50,14 +50,21 @@
      <Compile Include="Assets\Camera\HUDManager.cs" />
      <Compile Include="Assets\Checkpoint\CheckpointBehavior.cs" />
      <Compile Include="Assets\Checkpoint\CheckpointsHolder.cs" />
-     <Compile Include="Assets\EarthBullet\BulletBehavior.cs" />
+     <Compile Include="Assets\CollapsiblePlatformBehavior.cs" />
+     <Compile Include="Assets\CoolDownIcon.cs" />
+     <Compile Include="Assets\CoolDownIconBehavior.cs" />
      <Compile Include="Assets\Enemy\Enemy.cs" />
+     <Compile Include="Assets\Enemy\EnemyActions.cs" />
+     <Compile Include="Assets\Enemy\EnemyClass.cs" />
+     <Compile Include="Assets\Enemy\Movement.cs" />
+     <Compile Include="Assets\Enemy\PatrolEnemy.cs" />
      <Compile Include="Assets\PickUps\PickUp.cs" />
      <Compile Include="Assets\Player\Player.cs" />
      <Compile Include="Assets\Player\PlayerActions.cs" />
      <Compile Include="Assets\Player\PlayerMovement.cs" />
      <Compile Include="Assets\Player\PlayerPowerActions.cs" />
      <Compile Include="Assets\Power\Earth\Earth.cs" />
+     <Compile Include="Assets\Power\Earth\EarthBullet\BulletBehavior.cs" />
      <Compile Include="Assets\Power\Earth\FallingBlockBehavior.cs" />
      <Compile Include="Assets\Power\Earth\FloatingBlockBehavior.cs" />
      <Compile Include="Assets\Power\Fire\Fire.cs" />
@@ -66,7 +73,7 @@
      <Compile Include="Assets\Switch\SwitchBehavior.cs" />
      <Compile Include="Assets\Weapon\Weapon.cs" />
  <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Users/DarkRaveDev/Desktop/SaveMyOwn/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
+ <HintPath>C:/Users/DarkRaveDev/Desktop/MostRecentSaveMyOwnBuildAmina/SaveMyOwn-blaizeVersion/SaveMyOwn/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity4.6B/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>

@@ -97,6 +97,7 @@ public class PlayerPowerActions : MonoBehaviour
                 case PRIMARY_ACTION:
 					HUD.Message.text = "Create Earth Stair Step!";
                     Earth.CreateFloatingBlock();
+                    
                     break;
                 case SECONDRY_ACTION:
 					HUD.Message.text = "Create Earth Block!";

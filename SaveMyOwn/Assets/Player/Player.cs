@@ -37,6 +37,11 @@ public class Player : MonoBehaviour
     {
        
     }
+    public void ApplyDamage(float Damage)
+    {
+        // needs to check if it goes below zero - later
+        Health = Health - Damage;
+    }
     public void SetHealth(float Health)
 	{
 		this.Health = Health;
